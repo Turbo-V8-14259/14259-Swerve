@@ -20,10 +20,10 @@ public class CasterSwerve {
     public CasterSwerve(DcMotor motor1, DcMotor motor2, DcMotor motor3, DcMotor motor4,
                         DcMotor motor5, DcMotor motor6, DcMotor motor7, DcMotor motor8) {
         //setup modules
-        moduleFR = new Module(motor1, motor2 , Math.toRadians(135), Math.toRadians(0));
-        moduleFL = new Module(motor3, motor4, Math.toRadians(-135), Math.toRadians(0));
-        moduleBR = new Module(motor5, motor6, Math.toRadians(-45), Math.toRadians(0));
-        moduleBL = new Module(motor7, motor8, Math.toRadians(45), Math.toRadians(0));
+        moduleFR = new Module(motor1, motor2 , Math.toRadians(135), Math.toRadians(0),1,1);
+        moduleFL = new Module(motor3, motor4, Math.toRadians(-135), Math.toRadians(0),1,1);
+        moduleBR = new Module(motor5, motor6, Math.toRadians(-45), Math.toRadians(0),1,1);
+        moduleBL = new Module(motor7, motor8, Math.toRadians(45), Math.toRadians(0),1,1);
     }
 
 
@@ -71,6 +71,18 @@ public class CasterSwerve {
         }
 
         return max;
+    }
+    public double getHeadingFL(){
+        return moduleFL.calculateHeading(1,1);
+    }
+    public double getHeadingFR(){
+        return moduleFR.calculateHeading(1,1);
+    }
+    public double getHeadingBL(){
+        return moduleBL.calculateHeading(1,1);
+    }
+    public double getHeadingBR(){
+        return moduleBR.calculateHeading(1,1);
     }
 
 

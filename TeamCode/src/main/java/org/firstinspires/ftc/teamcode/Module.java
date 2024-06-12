@@ -22,14 +22,15 @@ public class Module {
     // angle to go to when the robot spins
     private double TURN_HEADING = 0;
 
-    // angle when the home sensor triggers
     private double HOME_HEADING = 0;
 
     private double heading = 0;
 
-    // power to home module at, polarity matters
+    // encoder sine values
+    private int encoderSine1 = 1;
+    private int encoderSine2 = 1;
 
-    // has the module homed yet
+
 
 
 
@@ -57,11 +58,15 @@ public class Module {
 
     // CONSTRUCTOR
     public Module(DcMotor motor1, DcMotor motor2,
-                  double turnHeading, double homeHeading){
+                  double turnHeading, double homeHeading, int encoderSine1, int encoderSine2) {
 
         // set hardware
         this.motor1 = motor1;
         this.motor2 = motor2;
+
+        // set encoder sine values
+        this.encoderSine1 = encoderSine1;
+        this.encoderSine2 = encoderSine2;
 
 
 
@@ -81,7 +86,7 @@ public class Module {
     public MotorPowers calculateRawMotorPowers(double xPowerRobot, double yPowerRobot, double turnPowerRobot) {
 
         // calculate module heading
-        double currentHeading = calculateHeading(-motor1.getCurrentPosition(), motor2.getCurrentPosition());
+        double currentHeading = calculateHeading(this.encoderSine1, this.encoderSine2);
 
 
 
@@ -119,11 +124,11 @@ public class Module {
 
 
     //updates module heading, angle wraps to +-180
-    public double calculateHeading(int motor1Encoder, int motor2Encoder) {
+    public double calculateHeading(int encoder1Sign, int encoder2Sign) {
 
         //calculate constant with gear ratio or just tune lol
         // subtract home heading since that's where the encoders are reset
-        heading = ((motor1Encoder + motor2Encoder) * 0.01527) - HOME_HEADING;
+        heading = (((motor1.getCurrentPosition() * encoder1Sign) + motor2.getCurrentPosition() * encoder2Sign) * 0.01527) - HOME_HEADING;
 
         //angle wrap
         return angleWrap(heading);
@@ -154,10 +159,7 @@ public class Module {
         motor2.setPower(rawPowers.motor2Power * scale);
     }
 
-    public double getHeading(){
-        return calculateHeading(-motor1.getCurrentPosition(), motor2.getCurrentPosition());
-    }
-    //returns if module is homed
+
 
 }
 
