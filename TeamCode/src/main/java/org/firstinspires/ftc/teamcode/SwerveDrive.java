@@ -19,10 +19,7 @@ public class SwerveDrive extends LinearOpMode {
         DcMotor moduleBRouter;
         DcMotor moduleBLinner;
         DcMotor moduleBLouter;
-        RevColorSensorV3 FR;
-        RevColorSensorV3 FL;
-        RevColorSensorV3 BR;
-        RevColorSensorV3 BL;
+
         moduleFRinner= hardwareMap.get(DcMotor.class, "FRI");
         moduleFRouter= hardwareMap.get(DcMotor.class, "FRO");
         moduleFLinner= hardwareMap.get(DcMotor.class, "FLI");
@@ -31,12 +28,9 @@ public class SwerveDrive extends LinearOpMode {
         moduleBRouter= hardwareMap.get(DcMotor.class, "BRO");
         moduleBLinner= hardwareMap.get(DcMotor.class, "BLI");
         moduleBLouter= hardwareMap.get(DcMotor.class, "BLO");
-        FR = hardwareMap.get(RevColorSensorV3.class, "FRS");
-        FL = hardwareMap.get(RevColorSensorV3.class, "FLS");
-        BR = hardwareMap.get(RevColorSensorV3.class, "BRS");
-        BL = hardwareMap.get(RevColorSensorV3.class, "BLS");
 
-        CasterSwerve c = new CasterSwerve(moduleFRinner, moduleFRouter, moduleFLinner, moduleFLouter, moduleBRinner, moduleBRouter, moduleBLinner, moduleBLouter, FR, FL, BR, BL); //FR FL BR BL
+
+        CasterSwerve c = new CasterSwerve(moduleFRinner, moduleFRouter, moduleFLinner, moduleFLouter, moduleBRinner, moduleBRouter, moduleBLinner, moduleBLouter);
 
         while(opModeInInit()) {
 //            c.initCasterSwerve();

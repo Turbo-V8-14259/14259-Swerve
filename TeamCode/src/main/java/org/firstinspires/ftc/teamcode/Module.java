@@ -20,19 +20,16 @@ public class Module {
     private RevColorSensorV3 homeSensor;
 
     // angle to go to when the robot spins
-    private final double TURN_HEADING;
+    private double TURN_HEADING = 0;
 
     // angle when the home sensor triggers
-    private final double HOME_HEADING;
+    private double HOME_HEADING = 0;
+
+    private double heading = 0;
 
     // power to home module at, polarity matters
-    private final double HOME_POWER;
 
     // has the module homed yet
-    private boolean homed;
-
-    // home sensor threshold
-    private final double HOME_THRESHOLD;
 
 
 
@@ -59,13 +56,12 @@ public class Module {
 
 
     // CONSTRUCTOR
-    public Module(DcMotor motor1, DcMotor motor2, RevColorSensorV3 homeSensor,
-                  double turnHeading, double homeHeading, double homePower){
+    public Module(DcMotor motor1, DcMotor motor2,
+                  double turnHeading, double homeHeading){
 
         // set hardware
         this.motor1 = motor1;
         this.motor2 = motor2;
-        this.homeSensor = homeSensor;
 
         // reverse motor2 direction since its gearing is inverted
 //        motor2.setDirection(DcMotor.Direction.REVERSE);
@@ -74,17 +70,10 @@ public class Module {
         //both reverse sus but worked
 
 
-        // idk if you need this but it makes sense
-        homeSensor.initialize();
-
         // set input values
         this.TURN_HEADING = turnHeading;
         this.HOME_HEADING = homeHeading;
-        this.HOME_POWER = homePower;
 
-        // initial values
-        homed = false;
-        HOME_THRESHOLD = 10;
     }
 
 
@@ -134,57 +123,12 @@ public class Module {
 
 
 
-
-
-    // homes the module and resets encoders there, returns true when done
-    public boolean homeModule() {
-
-        // if we're in a home position and haven't homed yet
-        if(homeSensor.getDistance(DistanceUnit.MM) < HOME_THRESHOLD && !homed) {
-
-            // reset the encoders
-            motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-            // record that we're homed so it stops moving
-            homed = true;
-        }
-
-        // motors move by default
-        double motor1Power = HOME_POWER;
-        double motor2Power = HOME_POWER;
-
-        //if we've homed, don't continue moving motors
-        if(homed) {
-            motor1Power = 0;
-            motor2Power = 0;
-
-            //start updating heading now that its homed
-            calculateHeading(-motor1.getCurrentPosition(), motor2.getCurrentPosition());
-        }
-
-
-        //apply the powers
-        motor1.setPower(motor1Power);
-        motor2.setPower(motor2Power);
-
-        //return true if done homing
-        return homed;
-    }
-
-
-
-
-
-
-
-
     //updates module heading, angle wraps to +-180
     public double calculateHeading(int motor1Encoder, int motor2Encoder) {
 
         //calculate constant with gear ratio or just tune lol
         // subtract home heading since that's where the encoders are reset
-        double heading = ((motor1Encoder + motor2Encoder) * 0.01527) - HOME_HEADING;
+        heading = ((motor1Encoder + motor2Encoder) * 0.01527) - HOME_HEADING;
 
         //angle wrap
         return angleWrap(heading);
@@ -193,11 +137,7 @@ public class Module {
 
     //angle wrap to [-180, 180)
     public double angleWrap(double inputRad) {
-        //modulo being sussy
-        int inputSign  = 1;
-        if(inputRad < 0) {
-            inputSign = -1;
-        }
+        double inputSign  = Math.signum(inputRad);
         inputRad = Math.abs(inputRad);
         inputRad %= 2 * Math.PI;
         inputRad -= Math.PI;
@@ -219,10 +159,10 @@ public class Module {
         motor2.setPower(rawPowers.motor2Power * scale);
     }
 
-    //returns if module is homed
-    public boolean getHomed() {
-        return homed;
+    public double getHeading(){
+        return angleWrap(heading);
     }
+    //returns if module is homed
 
 }
 
