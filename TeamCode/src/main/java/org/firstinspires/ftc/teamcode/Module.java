@@ -63,11 +63,6 @@ public class Module {
         this.motor1 = motor1;
         this.motor2 = motor2;
 
-        // reverse motor2 direction since its gearing is inverted
-//        motor2.setDirection(DcMotor.Direction.REVERSE);
-//        motor1.setDirection(DcMotor.Direction.REVERSE);
-        //both forwrad worked
-        //both reverse sus but worked
 
 
         // set input values
@@ -160,7 +155,7 @@ public class Module {
     }
 
     public double getHeading(){
-        return angleWrap(heading);
+        return calculateHeading(-motor1.getCurrentPosition(), motor2.getCurrentPosition());
     }
     //returns if module is homed
 
