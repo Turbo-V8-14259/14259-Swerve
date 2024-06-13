@@ -76,10 +76,10 @@ public class CasterSwerve {
         return moduleFL.calculateHeading(1,1);
     }
     public double getHeadingFR(){
-        return moduleFR.calculateHeading(1,1);
+        return moduleFR.calculateHeading(-1,1);
     }
     public double getHeadingBL(){
-        return moduleBL.calculateHeading(1,1);
+        return moduleBL.calculateHeading(1,-1);
     }
     public double getHeadingBR(){
         return moduleBR.calculateHeading(1,1);

@@ -36,8 +36,13 @@ public class WhatIsTheFrontTest extends LinearOpMode {
         BLL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         BLR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
+        CasterSwerve c = new CasterSwerve(FRL, FRR, FLL, FLR, BRL, BRR, BLL, BLR);
+
         waitForStart();
         while(opModeIsActive()){
+            telemetry.addData("back left module heading ", Math.toDegrees(c.getHeadingBL()));
+            telemetry.addData("front right module heading ", Math.toDegrees(c.getHeadingFR()));
+            telemetry.update();
 //            BRL.setPower(gamepad1.left_trigger);
 //            BRR.setPower(gamepad1.left_trigger);
         }

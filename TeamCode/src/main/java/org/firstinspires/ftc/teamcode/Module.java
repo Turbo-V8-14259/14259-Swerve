@@ -63,6 +63,11 @@ public class Module {
         // set hardware
         this.motor1 = motor1;
         this.motor2 = motor2;
+        motor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
         // set encoder sine values
         this.encoderSine1 = encoderSine1;
