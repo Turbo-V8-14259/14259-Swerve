@@ -11,6 +11,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 // one wheel module
 public class Module {
+    private double p1;
+    private double p2;
 
     // drive motors
     private DcMotor motor1;
@@ -27,8 +29,7 @@ public class Module {
     private double heading = 0;
 
     // encoder sine values
-    private int encoderSine1 = 1;
-    private int encoderSine2 = 1;
+
 
 
 
@@ -58,7 +59,7 @@ public class Module {
 
     // CONSTRUCTOR
     public Module(DcMotor motor1, DcMotor motor2,
-                  double turnHeading, double homeHeading, int encoderSine1, int encoderSine2) {
+                  double turnHeading, double homeHeading) {
 
         // set hardware
         this.motor1 = motor1;
@@ -67,12 +68,6 @@ public class Module {
         motor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-
-        // set encoder sine values
-        this.encoderSine1 = encoderSine1;
-        this.encoderSine2 = encoderSine2;
-
 
 
         // set input values
@@ -88,18 +83,12 @@ public class Module {
 
 
     // returns both motor powers but they could be up to 2.0
-    public MotorPowers calculateRawMotorPowers(double xPowerRobot, double yPowerRobot, double turnPowerRobot) {
+    public MotorPowers calculateRawMotorPowers(double xPowerRobot, double yPowerRobot, double turnPowerRobot, int sine1, int sin2) {
 
         // calculate module heading
-        double currentHeading = calculateHeading(this.encoderSine1, this.encoderSine2);
-
-
-
-
-
+        double currentHeading = calculateHeading(sine1, sin2);
 
         //module vector to generate (frame coordinates)
-        //but guys swerve math is really hard
         double xPowerFrame = xPowerRobot + (turnPowerRobot * Math.cos(TURN_HEADING));
         double yPowerFrame = yPowerRobot + (turnPowerRobot * Math.sin(TURN_HEADING));
 
@@ -110,18 +99,11 @@ public class Module {
         double powerDirectionModule = Math.atan2(yPowerFrame, xPowerFrame) - currentHeading;
         powerDirectionModule = angleWrap(powerDirectionModule);
 
-
-
-
-
         //find module rotation and wheel powers
         double wheelPower = powerMagnitude * Math.sin(powerDirectionModule);
         double modulePower = powerMagnitude * Math.cos(powerDirectionModule);
-
-
-
-
         //return motor powers
+
         return calculatePowers(modulePower, wheelPower);
     }
 
@@ -160,8 +142,17 @@ public class Module {
 
     //applies the motor powers from the input, scales by scale input
     public void applyPowers(MotorPowers rawPowers, double scale) {
+        p1 = rawPowers.motor1Power * scale;
+        p2 = rawPowers.motor2Power  * scale;
         motor1.setPower(rawPowers.motor1Power * scale);
         motor2.setPower(rawPowers.motor2Power * scale);
+    }
+
+    public double getP1(){
+        return p1;
+    }
+    public double getP2(){
+        return p2;
     }
 
 
