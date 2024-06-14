@@ -40,12 +40,19 @@ public class WhatIsTheFrontTest extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()){
-            FRL.setPower(gamepad1.right_trigger);
-            FRR.setPower(gamepad1.left_trigger);
-//            c.drive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
-            telemetry.addData("back left module heading ", Math.toDegrees(c.getHeadingFR()));
-            telemetry.addData("power 1 of FR", c.getFRP1());
-            telemetry.addData("power 2 of Fr", c.getFRP2());
+//            FRL.setPower(gamepad1.left_trigger);
+//            FRR.setPower(gamepad1.left_trigger);
+//            FLL.setPower(gamepad1.left_trigger);
+//            FLR.setPower(gamepad1.left_trigger);
+//            telemetry.addData("gp1 left trig", gamepad1.left_trigger);
+            c.drive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+//            telemetry.addData("front right module heading ", Math.toDegrees(c.getHeadingFR()));
+
+            telemetry.addData("front left module heading ", Math.toDegrees(c.getHeadingFL()));
+            telemetry.addData("back left module heading ", Math.toDegrees(c.getHeadingBL()));
+
+//            telemetry.addData("power 1 of FR", c.getBRP1());
+//            telemetry.addData("power 2 of Fr", c.getBRP2());
             telemetry.update();
 //            BRL.setPower(gamepad1.left_trigger);
 //            BRR.setPower(gamepad1.left_trigger);

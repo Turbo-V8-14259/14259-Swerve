@@ -39,7 +39,7 @@ public class SwerveDrive extends LinearOpMode {
 
         }
         while(opModeIsActive()) {
-            c.drive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+//            c.drive(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 //            telemetry.addData("heading of the Front Left Module", Math.toDegrees(c.moduleFL.calculateHeading(moduleFLinner.getCurrentPosition(), moduleFLouter.getCurrentPosition())));
             telemetry.addData("inner",-moduleFLinner.getCurrentPosition());
             telemetry.addData("outer",-moduleFLouter.getCurrentPosition()); //FL
