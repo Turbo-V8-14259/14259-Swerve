@@ -35,7 +35,7 @@ public class CasterSwerve {
 
         // calculate raw motor powers for each module
         Module.MotorPowers modulePowersFR = moduleFR.calculateRawMotorPowers(xPower, yPower, turnPower, -1, 1);
-        Module.MotorPowers modulePowersFL = moduleFL.calculateRawMotorPowers(xPower, yPower, turnPower, -1, 1);//tune
+        Module.MotorPowers modulePowersFL = moduleFL.calculateRawMotorPowers(xPower, yPower, turnPower, 1, -1);//tune
         Module.MotorPowers modulePowersBR = moduleBR.calculateRawMotorPowers(xPower, yPower, turnPower, -1, 1);
         Module.MotorPowers modulePowersBL = moduleBL.calculateRawMotorPowers(xPower, yPower, turnPower, 1, -1);
 
@@ -49,9 +49,9 @@ public class CasterSwerve {
         }
 
         //apply motor powers in modules with scale factor
-//        moduleFR.applyPowers(modulePowersFR, motorPowerScale);
+        moduleFR.applyPowers(modulePowersFR, motorPowerScale);
         moduleFL.applyPowers(modulePowersFL, motorPowerScale);
-//        moduleBR.applyPowers(modulePowersBR, motorPowerScale);
+        moduleBR.applyPowers(modulePowersBR, motorPowerScale);
         moduleBL.applyPowers(modulePowersBL, motorPowerScale);
     }
 
@@ -73,7 +73,7 @@ public class CasterSwerve {
         return max;
     }
     public double getHeadingFL(){
-        return moduleFL.calculateHeading(-1,1);
+        return moduleFL.calculateHeading(1,-1);
     } //broken
     public double getHeadingFR(){
         return moduleFR.calculateHeading(-1,1);
