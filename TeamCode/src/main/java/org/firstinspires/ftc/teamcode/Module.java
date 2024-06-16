@@ -83,7 +83,7 @@ public class Module {
 
 
     // returns both motor powers but they could be up to 2.0
-    public MotorPowers calculateRawMotorPowers(double xPowerRobot, double yPowerRobot, double turnPowerRobot, int sine1, int sin2) {
+    public MotorPowers calculateRawMotorPowers(double xPowerRobot, double yPowerRobot, double turnPowerRobot, int sine1, int sin2, int sinWheelPower, int sinModulePower) {
 
         // calculate module heading
         double currentHeading = calculateHeading(sine1, sin2);
@@ -104,7 +104,7 @@ public class Module {
         double modulePower = powerMagnitude * Math.cos(powerDirectionModule);
         //return motor powers
 
-        return calculatePowers(modulePower, wheelPower);
+        return calculatePowers(modulePower * sinModulePower, wheelPower * sinWheelPower);
     }
 
 
@@ -136,7 +136,7 @@ public class Module {
     //calculates motor powers, diffy is so much harder to program fr
     public MotorPowers calculatePowers(double modulePower, double wheelPower) {
 
-        return new MotorPowers(modulePower + wheelPower, modulePower - wheelPower);
+        return new MotorPowers(modulePower - wheelPower, modulePower + wheelPower);
     }
 
 
