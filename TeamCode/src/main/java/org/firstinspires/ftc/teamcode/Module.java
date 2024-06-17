@@ -115,7 +115,7 @@ public class Module {
 
         //calculate constant with gear ratio or just tune lol
         // subtract home heading since that's where the encoders are reset
-        heading = (((motor1.getCurrentPosition() * encoder1Sign) + motor2.getCurrentPosition() * encoder2Sign) * 0.01527) - HOME_HEADING;
+        heading = (((motor1.getCurrentPosition() * encoder1Sign) + motor2.getCurrentPosition() * encoder2Sign) * 0.01527 * 1.015 * 1.000314) - HOME_HEADING;
 
         //angle wrap
         return angleWrap(heading);

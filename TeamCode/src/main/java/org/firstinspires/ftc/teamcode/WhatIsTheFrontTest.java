@@ -48,7 +48,7 @@ public class WhatIsTheFrontTest extends LinearOpMode {
 //            FLL.setPower(gamepad1.left_trigger);
 //            FLR.setPower(gamepad1.left_trigger);
 //            telemetry.addData("gp1 left trig", gamepad1.left_trigger);
-            c.drive(gamepad1.left_stick_y * .5, gamepad1.left_stick_x * .5, gamepad1.right_stick_x * .5);
+            c.drive((gamepad1.left_stick_y + gamepad2.right_stick_y) * .5, (gamepad1.left_stick_x + gamepad2.right_stick_x) * .5, (-gamepad1.right_stick_x + -gamepad2.left_stick_x) * .5);
 //            telemetry.addData("front right module heading ", Math.toDegrees(c.getHeadingFR()));
 
             telemetry.addData("front left module heading ", Math.toDegrees(c.getHeadingFL()));
