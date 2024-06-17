@@ -1,12 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-
-//imports
-import com.qualcomm.hardware.rev.RevColorSensorV3;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-
-import org.checkerframework.checker.units.qual.C;
 
 public class CasterSwerve {
 
@@ -72,9 +65,11 @@ public class CasterSwerve {
 
         return max;
     }
+
+    //make sure the signs match what u initialize it with, returns the heading of the module
     public double getHeadingFL(){
         return moduleFL.calculateHeading(1,-1);
-    } //broken
+    }
     public double getHeadingFR(){
         return moduleFR.calculateHeading(-1,1);
     }
@@ -84,32 +79,6 @@ public class CasterSwerve {
     public double getHeadingBR(){
         return moduleBR.calculateHeading(-1,1);
     }
-
-    public double getFRP1(){
-        return moduleFR.getP1();
-    }
-    public double getFRP2(){
-        return moduleFR.getP2();
-    }
-    public double getFLP1(){
-        return moduleFL.getP1();
-    }
-    public double getFLP2(){
-        return moduleFL.getP2();
-    }
-    public double getBRP1(){
-        return moduleBR.getP1();
-    }
-    public double getBRP2(){
-        return moduleBR.getP2();
-    }
-    public double getBLP1(){
-        return moduleBL.getP1();
-    }
-    public double getBLP2(){
-        return moduleBL.getP2();
-    }
-
 
 
 

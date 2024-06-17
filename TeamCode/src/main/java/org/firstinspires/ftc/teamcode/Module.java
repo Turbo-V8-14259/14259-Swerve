@@ -1,37 +1,22 @@
 package org.firstinspires.ftc.teamcode;
 
-//imports
-import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
 
 // one wheel module
 public class Module {
-    private double p1;
-    private double p2;
 
-    // drive motors
     private DcMotor motor1;
     private DcMotor motor2;
 
-    // home sensor
-    private RevColorSensorV3 homeSensor;
 
     // angle to go to when the robot spins
     private double TURN_HEADING = 0;
-
+    //angle the modules start at
     private double HOME_HEADING = 0;
 
     private double heading = 0;
-
-    // encoder sine values
-
-
-
 
 
 
@@ -73,7 +58,6 @@ public class Module {
         // set input values
         this.TURN_HEADING = turnHeading;
         this.HOME_HEADING = homeHeading;
-
     }
 
 
@@ -83,10 +67,10 @@ public class Module {
 
 
     // returns both motor powers but they could be up to 2.0
-    public MotorPowers calculateRawMotorPowers(double xPowerRobot, double yPowerRobot, double turnPowerRobot, int sine1, int sin2, int sinWheelPower, int sinModulePower) {
+    public MotorPowers calculateRawMotorPowers(double xPowerRobot, double yPowerRobot, double turnPowerRobot, int encoderSine1, int encoderSine2, int sinModule1, int sinModule2) {
 
         // calculate module heading
-        double currentHeading = calculateHeading(sine1, sin2);
+        double currentHeading = calculateHeading(encoderSine1, encoderSine2);
 
         //module vector to generate (frame coordinates)
         double xPowerFrame = xPowerRobot + (turnPowerRobot * Math.cos(TURN_HEADING));
@@ -102,22 +86,20 @@ public class Module {
         //find module rotation and wheel powers
         double wheelPower = powerMagnitude * Math.sin(powerDirectionModule);
         double modulePower = powerMagnitude * Math.cos(powerDirectionModule);
-        //return motor powers
 
-        return calculatePowers(modulePower * sinModulePower, wheelPower * sinWheelPower);
+        //return motor powers
+        return calculatePowers(modulePower * sinModule2, wheelPower * sinModule1);
     }
 
 
 
 
     //updates module heading, angle wraps to +-180
-    public double calculateHeading(int encoder1Sign, int encoder2Sign) {
-
-        //calculate constant with gear ratio or just tune lol
+    public double calculateHeading(int encoderSine1, int encoderSine2) {
         // subtract home heading since that's where the encoders are reset
-        heading = (((motor1.getCurrentPosition() * encoder1Sign) + motor2.getCurrentPosition() * encoder2Sign) * 0.01527 * 1.015 * 1.000314) - HOME_HEADING;
+        //0.01527 * 1.015 * 1.000314 is the gear ratio constant for the encoders
+        heading = (((motor1.getCurrentPosition() * encoderSine1) + motor2.getCurrentPosition() * encoderSine2) * 0.01527 * 1.015 * 1.000314) - HOME_HEADING;
 
-        //angle wrap
         return angleWrap(heading);
     }
 
@@ -142,17 +124,8 @@ public class Module {
 
     //applies the motor powers from the input, scales by scale input
     public void applyPowers(MotorPowers rawPowers, double scale) {
-        p1 = rawPowers.motor1Power * scale;
-        p2 = rawPowers.motor2Power  * scale;
         motor1.setPower(rawPowers.motor1Power * scale);
         motor2.setPower(rawPowers.motor2Power * scale);
-    }
-
-    public double getP1(){
-        return p1;
-    }
-    public double getP2(){
-        return p2;
     }
 
 
